@@ -45,6 +45,28 @@ services:
     networks:
       - clinic-net
 
+  # Thêm Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: clinic_prometheus
+    restart: always
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - clinic-net
+
+  # Thêm Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: clinic_grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - clinic-net
+
 volumes:
   pgdata:
 
