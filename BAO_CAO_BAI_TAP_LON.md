@@ -3,7 +3,7 @@
 
 ---
 
-# BÁO CÁO BÀI TẬP LỚN
+# BÁO CÁO BÀI TẬP 
 ### MÔN HỌC: TRIỂN KHAI VÀ QUẢN TRỊ HỆ THỐNG PHẦN MỀM
 
 **Đề tài (Đề 8):** XÂY DỰNG, TRIỂN KHAI VÀ QUẢN TRỊ HỆ THỐNG QUẢN LÝ PHÒNG KHÁM / BỆNH VIỆN TRÊN NỀN TẢNG DOCKER
