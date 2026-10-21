@@ -45,6 +45,21 @@ services:
     networks:
       - clinic-net
 
+  # Thêm cAdvisor để thu thập thông số CPU/RAM của container
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: clinic_cadvisor
+    restart: always
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "8080:8080"
+    networks:
+      - clinic-net
+
   prometheus:
     image: prom/prometheus:latest
     container_name: clinic_prometheus
@@ -65,7 +80,6 @@ services:
     networks:
       - clinic-net
 
-  # Thêm Loki
   loki:
     image: grafana/loki:latest
     container_name: clinic_loki
@@ -78,7 +92,6 @@ services:
     networks:
       - clinic-net
 
-  # Thêm Promtail
   promtail:
     image: grafana/promtail:latest
     container_name: clinic_promtail
