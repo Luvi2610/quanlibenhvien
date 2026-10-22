@@ -15,7 +15,34 @@ scrape_configs:
         refresh_interval: 5s
     relabel_configs:
       - source_labels: ['__meta_docker_container_name']
-        regex: '/(.*)'
+        regex: '/(clinic_.*)'
         target_label: 'container_name'
-      - source_labels: ['__meta_docker_container_log_stream']
-        target_label: 'stream'
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/clinic_nginx'
+        action: keep
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/clinic_app'
+        action: keep
+    pipeline_stages:
+      - match:
+          selector: '{container_name="clinic_nginx"}'
+          stages:
+            - regex:
+                expression: '^(?P<remote_addr>[\w\.]+) - - \[(?P<time>[^\]]+)\] "(?P<method>\w+) (?P<path>[^\s]+)[^"]*" (?P<status>\d+)'
+            - labels:
+                method:
+                status:
+      - match:
+          selector: '{container_name="clinic_app"}'
+          stages:
+            - json:
+                expressions:
+                  level: level
+                  method: method
+                  status: status
+                  event: event
+            - labels:
+                level:
+                method:
+                status:
+                event:
